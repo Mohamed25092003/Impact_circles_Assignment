@@ -743,33 +743,6 @@ publication is pending, editing and approval changes are blocked.
 
 [Back to navigation](#navigate)
 
-## Demo checklist
-
-Use fictional inputs. These are manual demonstration steps; no automated test suite
-is included in this delivery, as requested.
-
-### Part 1
-
-- [ ] Upload a text-based PDF; inspect normalized fields and the upload ID.
-- [ ] Upload an image or scanned PDF; inspect the OCR-derived result.
-- [ ] Upload INV-1001 with total EUR 120 and confirm it saves once.
-- [ ] Upload it again and inspect the duplicate warning.
-- [ ] Upload INV-1002 with stated total EUR 150 versus expected EUR 120; inspect the rejection.
-- [ ] Open the tracker and a category-filtered summary.
-
-### Part 2
-
-- [ ] Create fictional research input and generate the three drafts.
-- [ ] Read the current revision and edit one output.
-- [ ] Attempt publishing before approval; confirm 409.
-- [ ] Authorize with the private reviewer token and approve LinkedIn only.
-- [ ] Publish and open the returned local mock URL.
-- [ ] Read publication timestamps, receipts and attempts in the status endpoint.
-- [ ] Publish again; confirm the existing delivery is reused.
-- [ ] Edit again; confirm approval resets and publishing is blocked until reapproval.
-
-[Back to navigation](#navigate)
-
 ## Limitations
 
 - This is a local prototype. Financial endpoints and content input/read/edit endpoints
