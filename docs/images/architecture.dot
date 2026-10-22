@@ -1,0 +1,36 @@
+digraph diagram {
+graph [bgcolor="white", pad="0.35", nodesep="0.35", ranksep="0.5", fontname="DejaVu Sans", fontsize=20, fontcolor="#0f172a", labelloc="t", dpi=150];
+node [shape=box, style="rounded,filled", fillcolor="#eff6ff", color="#3b82f6", penwidth=1.5, fontname="DejaVu Sans", fontsize=13, fontcolor="#0f172a", margin="0.2,0.13"];
+edge [color="#475569", penwidth=1.4, arrowsize=0.8, fontname="DejaVu Sans", fontsize=11];
+label="Application architecture";
+
+rankdir=TB;
+user [label="Browser / Swagger / API client", fillcolor="#f1f5f9", color="#64748b"];
+subgraph cluster_app {
+label="One FastAPI application · port 8000"; color="#cbd5e1"; style="rounded"; fontname="DejaVu Sans";
+api [label="HTTP routes"];
+financial [label="Part 1\nFinancial controllers", fillcolor="#ecfdf5", color="#0d9488"];
+content [label="Part 2\nContent controller"];
+ocr [label="PDF reader / Tesseract OCR", fillcolor="#ecfdf5", color="#0d9488"];
+gate [label="Current revision +\nreviewer approval checks"];
+publish [label="Actual local HTTP request"];
+mock [label="Built-in mock publisher"];
+api -> financial; api -> content;
+financial -> ocr;
+content -> gate -> publish -> mock;
+{rank=same; financial; content;}
+}
+user -> api;
+groq [label="Groq AI\nConfigured model", fillcolor="#f5f3ff", color="#8b5cf6"];
+db [label="Shared PostgreSQL\nimpact_circle", shape=cylinder, fillcolor="#eff6ff", color="#2563eb"];
+files [label="Original PDFs / images\nsrc/uploads", shape=folder, fillcolor="#ecfdf5", color="#0d9488"];
+page [label="Retrievable demo post URL", fillcolor="#f0fdf4", color="#16a34a"];
+financial -> groq [label="extract"];
+content -> groq [label="generate"];
+financial -> db [label="validated expenses"];
+content -> db [label="drafts and approval"];
+mock -> db [label="persist received post"];
+financial -> files;
+mock -> page;
+
+}

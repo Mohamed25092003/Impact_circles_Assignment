@@ -1,0 +1,34 @@
+digraph diagram {
+graph [bgcolor="white", pad="0.35", nodesep="0.35", ranksep="0.5", fontname="DejaVu Sans", fontsize=20, fontcolor="#0f172a", labelloc="t", dpi=150];
+node [shape=box, style="rounded,filled", fillcolor="#eff6ff", color="#3b82f6", penwidth=1.5, fontname="DejaVu Sans", fontsize=13, fontcolor="#0f172a", margin="0.2,0.13"];
+edge [color="#475569", penwidth=1.4, arrowsize=0.8, fontname="DejaVu Sans", fontsize=11];
+label="Part 2 · Content review and publishing";
+
+rankdir=TB;
+input [label="Save original research input"];
+generate [label="Explicitly generate three AI drafts\nLinkedIn · newsletter · website"];
+draft [label="Save current drafts and revision"];
+review [label="Human reads and edits the drafts"];
+approve [label="Reviewer approves\ncurrent revision?", shape=diamond, style=filled];
+reject [label="Rejected / not publishable", fillcolor="#fff1f2", color="#f43f5e"];
+select [label="Save selected channels + approval digest"];
+publish [label="Explicitly call the publish endpoint"];
+gate [label="Approval, revision\nand digest match?", shape=diamond, style=filled];
+block [label="409 · Review and approve again", fillcolor="#fff1f2", color="#f43f5e"];
+http [label="Actual local HTTP POST\nfor each selected channel"];
+receipt [label="Save independent receipts, URLs,\ntimestamps and errors"];
+url [label="Status API + viewable mock post URL", fillcolor="#f0fdf4", color="#16a34a"];
+edit [label="An edit or new generation\nincrements revision and clears approval", fillcolor="#fff7ed", color="#f97316"];
+newsletter [label="Newsletter is stored only\nNo email is sent", shape=note, fillcolor="#f8fafc", color="#94a3b8"];
+input -> generate -> draft -> review -> approve;
+approve -> reject [label="No"];
+approve -> select [label="Yes"];
+select -> publish -> gate;
+gate -> block [label="No"];
+gate -> http [label="Yes"];
+http -> receipt -> url;
+select -> edit [style=dashed, label="content changes"];
+edit -> draft [style=dashed, constraint=false];
+generate -> newsletter [style=dotted, arrowhead=none];
+
+}

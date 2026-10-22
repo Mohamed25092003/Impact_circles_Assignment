@@ -1,0 +1,13 @@
+src/.env
+src/uploads/
+__pycache__/
+*.pyc
+.venv/
+
+# Private environment files, local overrides and backups (examples are safe to share).
+.env
+.env.*
+*.env
+*.env.*
+!.env.example
+!*.env.example

@@ -1,0 +1,18 @@
+digraph diagram {
+graph [bgcolor="white", pad="0.35", nodesep="0.35", ranksep="0.5", fontname="DejaVu Sans", fontsize=20, fontcolor="#0f172a", labelloc="t", dpi=150];
+node [shape=box, style="rounded,filled", fillcolor="#eff6ff", color="#3b82f6", penwidth=1.5, fontname="DejaVu Sans", fontsize=13, fontcolor="#0f172a", margin="0.2,0.13"];
+edge [color="#475569", penwidth=1.4, arrowsize=0.8, fontname="DejaVu Sans", fontsize=11];
+label="One database · Separate tables for each project";
+
+rankdir=LR;
+node [shape=plain];
+upload [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="10" COLOR="#0d9488"><TR><TD BGCOLOR="#0d9488"><FONT COLOR="white"><B>document_uploads</B></FONT></TD></TR><TR><TD ALIGN="LEFT">id · primary key<BR ALIGN="LEFT"/>original_filename<BR ALIGN="LEFT"/>sha256 · unique<BR ALIGN="LEFT"/>extracted_text</TD></TR></TABLE>>];
+invoice [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="10" COLOR="#0d9488"><TR><TD BGCOLOR="#0d9488"><FONT COLOR="white"><B>financial_documents</B></FONT></TD></TR><TR><TD ALIGN="LEFT">id · primary key<BR ALIGN="LEFT"/>upload_id · foreign key<BR ALIGN="LEFT"/>invoice_date · vendor<BR ALIGN="LEFT"/>amount · currency<BR ALIGN="LEFT"/>category · evidence</TD></TR></TABLE>>];
+content [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="10" COLOR="#2563eb"><TR><TD BGCOLOR="#2563eb"><FONT COLOR="white"><B>content_requests</B></FONT></TD></TR><TR><TD ALIGN="LEFT">id · primary key<BR ALIGN="LEFT"/>project_name · description<BR ALIGN="LEFT"/>generated · revision<BR ALIGN="LEFT"/>approved · channels</TD></TR></TABLE>>];
+publication [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="10" COLOR="#2563eb"><TR><TD BGCOLOR="#2563eb"><FONT COLOR="white"><B>content_publication_logs</B></FONT></TD></TR><TR><TD ALIGN="LEFT">id · primary key<BR ALIGN="LEFT"/>content_id · foreign key<BR ALIGN="LEFT"/>revision · channel · payload<BR ALIGN="LEFT"/>status · published_url<BR ALIGN="LEFT"/>attempts · mock_post</TD></TR></TABLE>>];
+upload -> invoice [label="one upload contains\nzero or more invoices", color="#0d9488"];
+content -> publication [label="one content request has\nzero or more deliveries", color="#2563eb"];
+{rank=same; upload; content;}
+{rank=same; invoice; publication;}
+
+}

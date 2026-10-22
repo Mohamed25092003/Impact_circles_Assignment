@@ -1,0 +1,33 @@
+digraph diagram {
+graph [bgcolor="white", pad="0.35", nodesep="0.35", ranksep="0.5", fontname="DejaVu Sans", fontsize=20, fontcolor="#0f172a", labelloc="t", dpi=150];
+node [shape=box, style="rounded,filled", fillcolor="#eff6ff", color="#3b82f6", penwidth=1.5, fontname="DejaVu Sans", fontsize=13, fontcolor="#0f172a", margin="0.2,0.13"];
+edge [color="#475569", penwidth=1.4, arrowsize=0.8, fontname="DejaVu Sans", fontsize=11];
+label="Part 1 · Financial document processing";
+
+rankdir=TB;
+node [fillcolor="#ecfdf5", color="#0d9488"];
+upload [label="Upload PDF or image"];
+verify [label="Check file type, contents, size and file hash"];
+kind [label="Input type?", shape=diamond, style=filled];
+text [label="PDF page has\nembedded text?", shape=diamond, style=filled];
+reader [label="pypdf reads embedded text"];
+ocr [label="Tesseract reads scanned page / image"];
+batch [label="Numbered pages + bounded text batches"];
+ai [label="Groq extracts invoice candidates\nand source evidence", fillcolor="#f5f3ff", color="#8b5cf6"];
+check [label="Code checks source facts, required fields,\namounts, arithmetic and duplicates"];
+valid [label="Valid and\nnonduplicate?", shape=diamond, style=filled];
+save [label="Save validated invoices\nand retain their source upload"];
+warn [label="Return warning\nDo not save this invoice", fillcolor="#fff1f2", color="#f43f5e"];
+summary [label="Expense tracker + summaries\nby project, category and currency"];
+upload -> verify -> kind;
+kind -> text [label="PDF"];
+kind -> ocr [label="Image"];
+text -> reader [label="Yes"];
+text -> ocr [label="No"];
+reader -> batch; ocr -> batch;
+batch -> ai -> check -> valid;
+valid -> save [label="Yes"];
+valid -> warn [label="No"];
+save -> summary;
+
+}

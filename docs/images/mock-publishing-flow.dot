@@ -1,0 +1,20 @@
+digraph diagram {
+graph [bgcolor="white", pad="0.35", nodesep="0.35", ranksep="0.5", fontname="DejaVu Sans", fontsize=20, fontcolor="#0f172a", labelloc="t", dpi=150];
+node [shape=box, style="rounded,filled", fillcolor="#eff6ff", color="#3b82f6", penwidth=1.5, fontname="DejaVu Sans", fontsize=13, fontcolor="#0f172a", margin="0.2,0.13"];
+edge [color="#475569", penwidth=1.4, arrowsize=0.8, fontname="DejaVu Sans", fontsize=11];
+label="What happens during mock publishing";
+
+rankdir=TB;
+start [label="Reviewer calls publish\nwith the private reviewer header"];
+verify [label="Backend verifies the current approval\nand selected channels"];
+intent [label="Commit a per-channel delivery intent\nto PostgreSQL", shape=cylinder];
+http [label="Send an actual local HTTP POST\nto /api/mock-publisher/PUBLICATION_ID/", fillcolor="#f5f3ff", color="#8b5cf6"];
+mock [label="Mock endpoint checks approved payload"];
+persist [label="Persist the received post\nReuse the same publication ID on retries", shape=cylinder];
+receipt [label="Return publication ID and local URL"];
+result [label="Backend saves receipt, time and result\nEach channel commits independently"];
+status [label="Return per-channel status and URLs"];
+page [label="Reviewer opens the URL\nMock displays the stored demo post", fillcolor="#f0fdf4", color="#16a34a"];
+start -> verify -> intent -> http -> mock -> persist -> receipt -> result -> status -> page;
+
+}

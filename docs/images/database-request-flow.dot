@@ -1,0 +1,19 @@
+digraph diagram {
+graph [bgcolor="white", pad="0.35", nodesep="0.35", ranksep="0.5", fontname="DejaVu Sans", fontsize=20, fontcolor="#0f172a", labelloc="t", dpi=150];
+node [shape=box, style="rounded,filled", fillcolor="#eff6ff", color="#3b82f6", penwidth=1.5, fontname="DejaVu Sans", fontsize=13, fontcolor="#0f172a", margin="0.2,0.13"];
+edge [color="#475569", penwidth=1.4, arrowsize=0.8, fontname="DejaVu Sans", fontsize=11];
+label="How a request uses the database";
+
+rankdir=TB;
+user [label="1 · User sends an HTTP request", fillcolor="#f1f5f9", color="#64748b"];
+route [label="2 · FastAPI route receives the request"];
+session [label="3 · get_db() supplies a SQLAlchemy session"];
+controller [label="4 · Controller runs the business logic\nand uses the session to read or change records"];
+sql [label="5 · SQLAlchemy sends SQL to PostgreSQL"];
+db [label="6 · PostgreSQL returns rows / results", shape=cylinder];
+commit [label="7 · For changes: controller calls commit()\nUncommitted failures can be rolled back", fillcolor="#ecfdf5", color="#0d9488"];
+response [label="8 · Route returns JSON to the user"];
+close [label="9 · The request finishes and the session closes", fillcolor="#f1f5f9", color="#64748b"];
+user -> route -> session -> controller -> sql -> db -> commit -> response -> close;
+
+}
