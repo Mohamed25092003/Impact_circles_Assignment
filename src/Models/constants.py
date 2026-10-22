@@ -35,7 +35,6 @@ OCR_SCHEMA_MIGRATION = SRC_DIR / "Models" / "migrations" / "001_document_text.sq
 TEXT_EXTRACTION_METHOD = "text"
 OCR_EXTRACTION_METHOD = "ocr"
 MIXED_EXTRACTION_METHOD = "mixed"
-DOCUMENT_NOT_FOUND_WARNING = "Document not found."
 OCR_DEPENDENCY_WARNING = (
     "Scanned pages require Tesseract and Poppler. Run the Docker app or install the OCR dependencies listed in README.md."
 )

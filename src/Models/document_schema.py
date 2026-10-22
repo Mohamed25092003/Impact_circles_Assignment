@@ -44,18 +44,6 @@ class FinancialDocumentResponse(BaseModel):
         }
 
 
-class DocumentUploadResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: uuid.UUID
-    original_filename: str
-    processing_status: str
-    detected_count: int
-    saved_count: int
-    invoices: list[FinancialDocumentResponse]
-    warnings: list[InvoiceWarning]
-
-
 class UploadInvoiceResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 

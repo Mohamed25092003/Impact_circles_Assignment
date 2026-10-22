@@ -1,5 +1,3 @@
-import uuid
-
 from fastapi import APIRouter, Depends, File, UploadFile, Query, status
 from sqlalchemy.orm import Session
 
@@ -7,7 +5,7 @@ from Controllers import documents as documents_controller
 from Controllers import expenses as expenses_controller
 from Helpers.database import get_db
 from Models.financial_schema import ExpenseCategory
-from Models.document_schema import DocumentUploadResponse, FinancialDocumentResponse, ExpenseSummaryResponse, UploadResponse
+from Models.document_schema import FinancialDocumentResponse, ExpenseSummaryResponse, UploadResponse
 
 
 router = APIRouter(prefix="/documents", tags=["financial documents"])
@@ -27,8 +25,3 @@ def list_expenses(category: ExpenseCategory | None = None, processing_status: st
 @router.get("/summary", response_model=ExpenseSummaryResponse)
 def summarize_expenses(category: ExpenseCategory | None = None, db: Session = Depends(get_db)):
     return expenses_controller.summarize_expenses(db, category)
-
-
-@router.get("/{document_id}", response_model=DocumentUploadResponse)
-def get_document(document_id: uuid.UUID, db: Session = Depends(get_db)):
-    return documents_controller.get_document(document_id=document_id, db=db)

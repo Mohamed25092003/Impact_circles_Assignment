@@ -251,18 +251,16 @@ if images on that same page also contain text.
 | Method | Endpoint | What you get/do |
 |---|---|---|
 | POST | `/documents/upload` | Process a file and save validated, nonduplicate invoices |
-| GET | `/documents/{document_id}` | Retrieve an upload and its saved invoices/warnings |
 | GET | `/documents/expenses` | Browse stored expenses; optional category/status/pagination |
 | GET | `/documents/summary` | Totals grouped by project, category and currency |
 
 <details open>
-<summary><strong>Try it: upload and retrieve an invoice in Swagger</strong></summary>
+<summary><strong>Try it: upload invoices in Swagger</strong></summary>
 
 1. Open [Swagger](http://localhost:8000/docs).
 2. Expand `POST /documents/upload` and click **Try it out**.
 3. Choose a PDF or supported image, then click **Execute**.
-4. Copy the **top-level upload `id`** from the response.
-5. Paste it into `GET /documents/{document_id}` to read the full saved details.
+4. Read the saved invoices and warnings in the upload response. To browse saved expenses later, use `GET /documents/expenses`.
 
 An illustrative compact upload response:
 
@@ -289,8 +287,7 @@ An illustrative compact upload response:
 }
 ```
 
-These example IDs are fictional. Use the actual returned upload ID for retrieval;
-the nested invoice ID is a different identifier.
+These example IDs are fictional. The top-level ID identifies the upload; each nested ID identifies a saved invoice.
 
 </details>
 

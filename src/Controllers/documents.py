@@ -7,12 +7,12 @@ from tempfile import TemporaryDirectory
 from fastapi import HTTPException, UploadFile
 from sqlalchemy import select, text
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import Session, selectinload
+from sqlalchemy.orm import Session
 
 from Controllers.financial import assess_financial_data, extract_invoice_batches, invoice_duplicate_key, upload_error
 from Controllers.ocr import extract_image_text, extract_pdf_text
 from Models.constants import (
-    DOCUMENT_NOT_FOUND_WARNING, DUPLICATE_FILE_WARNING, DUPLICATE_INVOICE_WARNING,
+    DUPLICATE_FILE_WARNING, DUPLICATE_INVOICE_WARNING,
     GROQ_MODEL, MAX_FILENAME_LENGTH, MAX_PDF_BYTES, PDF_CONTENT_TYPE, PDF_CONTENT_WARNING,
     PDF_EXTENSION, PDF_EXTENSION_WARNING, PDF_HEADER, PDF_SIZE_WARNING, UPLOAD_CHUNK_BYTES,
     UPLOAD_DIR, VALIDATED_STATUS, SUPPORTED_IMAGES, SUPPORTED_FILE_WARNING,
@@ -21,13 +21,6 @@ from Models.document import FinancialDocument
 from Models.financial_schema import InvoiceWarning
 from Models.ocr_schema import DocumentExtractionError
 from Models.upload import DocumentUpload
-
-
-def get_document(document_id: uuid.UUID, db: Session) -> DocumentUpload:
-    document = db.scalar(select(DocumentUpload).where(DocumentUpload.id == document_id).options(selectinload(DocumentUpload.invoices)))
-    if document is None:
-        raise HTTPException(status_code=404, detail=DOCUMENT_NOT_FOUND_WARNING)
-    return document
 
 
 def duplicate_warning(existing: FinancialDocument, index: int, pages: list[int]) -> InvoiceWarning:
